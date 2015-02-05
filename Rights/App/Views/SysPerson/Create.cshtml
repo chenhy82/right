@@ -1,0 +1,184 @@
+﻿@model Langben.DAL.SysPerson
+
+@{
+    Layout = "~/Views/Shared/Create.cshtml";
+}
+@using Common
+@using Models
+ 
+@section CurentPlace {
+ 
+      创建  
+ 
+ }
+    <fieldset>
+        <legend>
+            <input class="a2 f2" type="submit" value="创建" />
+            <input class="a2 f2" type="button" onclick="BackList('SysPerson')" value="返回" />
+        </legend>
+            <div class="bigdiv">
+                <div style="float:right; width:379px;height:184px;">
+                        <div style="text-align:center;">
+                            <img id="showPic" src="~/Images/noPic.jpg" width="149" height="175" style="padding-bottom: 0px;"/>
+                            <div id="uploader-demo">
+                                <!--用来存放item-->
+                                <div id="fileList" style="display:none;" class="uploader-list"></div>
+                                <div id="filePicker">上传头像</div>
+                            </div>
+                        </div>
+                    </div>
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.Name)：
+                </div>
+                <div class="editor-field">
+                    @Html.EditorFor(model => model.Name)
+                    @Html.ValidationMessageFor(model => model.Name)
+                </div>
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.MyName)：
+                </div>
+                <div class="editor-field">
+                    @Html.EditorFor(model => model.MyName)
+                    @Html.ValidationMessageFor(model => model.MyName)
+                </div>
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.Password)：
+                </div>
+                <div class="editor-field">
+                    @Html.EditorFor(model => model.Password)
+                    @Html.ValidationMessageFor(model => model.Password)
+                </div>
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.SurePassword)：
+                </div>
+                <div class="editor-field">
+                    @Html.EditorFor(model => model.SurePassword)
+                    @Html.ValidationMessageFor(model => model.SurePassword)
+                </div>
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.Sex)：
+                </div>
+                <div class="editor-field">
+                    @Html.DropDownListFor(model => model.Sex, Models.SysFieldModels.GetSysField("SysPerson", "Sex"))
+                </div>
+                <div class="editor-label">
+                    <a class="anUnderLine" onclick="showModalOnly('SysDepartmentId','../../SysDepartment');">
+                        @Html.LabelFor(model => model.SysDepartmentId)
+                    </a>：
+                </div>
+                <div class="editor-field">
+                    <div id="checkSysDepartmentId">
+                    </div>
+                    @Html.HiddenFor(model => model.SysDepartmentId)
+                </div>
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.Position)：
+                </div>
+                <div class="editor-field">
+                    @Html.EditorFor(model => model.Position)
+                    @Html.ValidationMessageFor(model => model.Position)
+                </div>
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.MobilePhoneNumber)：
+                </div>
+                <div class="editor-field">
+                    @Html.EditorFor(model => model.MobilePhoneNumber)
+                    @Html.ValidationMessageFor(model => model.MobilePhoneNumber)
+                </div>
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.PhoneNumber)：
+                </div>
+                <div class="editor-field">
+                    @Html.EditorFor(model => model.PhoneNumber)
+                    @Html.ValidationMessageFor(model => model.PhoneNumber)
+                </div>
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.Province)：
+                </div>
+                <div class="editor-field">
+                    @Html.DropDownListFor(model => model.Province,Models.SysFieldModels.GetSysField("SysPerson","Province"),"请选择")
+                </div>
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.City)：
+                </div>
+                <div class="editor-field">
+                    <select id="City" name="City"></select>
+                </div>
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.Village)：
+                </div>
+                <div class="editor-field">
+                    <select id="Village" name="Village"></select>
+                </div>
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.Address)：
+                </div>
+                <div class="editor-field">
+                    @Html.EditorFor(model => model.Address)
+                    @Html.ValidationMessageFor(model => model.Address)
+                </div>
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.EmailAddress)：
+                </div>
+                <div class="editor-field">
+                    @Html.EditorFor(model => model.EmailAddress)
+                    @Html.ValidationMessageFor(model => model.EmailAddress)
+                </div><div class="editor-label">
+    @Html.LabelFor(model => model.State)：
+</div>
+<div class="editor-field">
+    @Html.RadioButtonListFor(model => model.State, Models.SysFieldModels.GetSysField("SysPerson", "State"), false)
+</div>
+                <br style="clear: both;" />
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.Remark)：
+                </div>
+                <div class="textarea-box">
+                    @Html.TextAreaFor(model => model.Remark)
+                    @Html.ValidationMessageFor(model => model.Remark)
+                </div>
+               
+            </div>
+        @Html.HiddenFor(model => model.HDpic)
+        <input type="hidden" id="fileUrl" value="HDpic" />
+        <script type="text/javascript" src="@Url.Content("~/Res/webuploader/js/webuploader.nolog.min.js")"></script>
+        <script type="text/javascript" src="@Url.Content("~/Scripts/UploadFile.js")"></script>
+</fieldset>
+ @section HeadContent{
+<link rel="stylesheet" type="text/css" href="@Url.Content("~/Res/webuploader/css/webuploader.css")" />
+ }
+    <script type="text/javascript">
+
+        $(function () {
+            
+            getCity("#City");
+            $("#Province").change(function () { getCity("#City"); });
+
+            getVillage("#Village");
+            $("#City").change(function () { getVillage("#Village"); });
+
+
+        });
+        
+        function getCity(City) {
+            $(City).empty();
+            $("<option></option>")
+                    .val("")
+                    .text("请选择")
+                    .appendTo($(City));
+            bindDropDownList(City, "#Province");
+            $(City).change();
+        }
+
+        function getVillage(Village) {
+            $(Village).empty();
+            $("<option></option>")
+                    .val("")
+                    .text("请选择")
+                    .appendTo($(Village));
+            bindDropDownList(Village, "#City");
+            $(Village).change();
+        }
+    </script>
+
+
